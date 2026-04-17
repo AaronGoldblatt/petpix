@@ -22,13 +22,13 @@ interface UploadPageProps {
   onUploadComplete: (data: PetData) => void
 }
 
-// Dummy dog image URLs for preloading - all featuring the same golden retriever "Buddy"
+// Dummy dog image URLs for preloading
 const DUMMY_DOG_IMAGES = [
-  "https://images.unsplash.com/photo-1633722715463-d30f4f325e24?w=400&h=400&fit=crop", // Golden retriever portrait
-  "https://images.unsplash.com/photo-1612774412771-005ed8e861d2?w=400&h=400&fit=crop", // Golden retriever side view
-  "https://images.unsplash.com/photo-1625316708582-7c38734d5cc8?w=400&h=400&fit=crop", // Golden retriever happy
-  "https://images.unsplash.com/photo-1619441207978-3d326c46e2c9?w=400&h=400&fit=crop", // Golden retriever outdoor
-  "https://images.unsplash.com/photo-1601979031925-424e53b6caaa?w=400&h=400&fit=crop", // Golden retriever close-up
+  "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1517849845537-4d257902454a?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=400&h=400&fit=crop",
 ]
 
 // Type for either a File or a dummy image URL

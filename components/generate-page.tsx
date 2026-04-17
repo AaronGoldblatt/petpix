@@ -26,14 +26,14 @@ interface GeneratePageProps {
   onHome: () => void
 }
 
-// Sample dummy images for demonstration - golden retriever "Buddy" in various styles
+// Sample dummy images for demonstration
 const DUMMY_IMAGES = [
-  "https://images.unsplash.com/photo-1633722715463-d30f4f325e24?w=512&h=512&fit=crop", // Golden retriever portrait
-  "https://images.unsplash.com/photo-1612774412771-005ed8e861d2?w=512&h=512&fit=crop", // Golden retriever side
-  "https://images.unsplash.com/photo-1625316708582-7c38734d5cc8?w=512&h=512&fit=crop", // Golden retriever happy
-  "https://images.unsplash.com/photo-1619441207978-3d326c46e2c9?w=512&h=512&fit=crop", // Golden retriever outdoor  
-  "https://images.unsplash.com/photo-1601979031925-424e53b6caaa?w=512&h=512&fit=crop", // Golden retriever close-up
-  "https://images.unsplash.com/photo-1558788353-f76d92427f16?w=512&h=512&fit=crop", // Golden retriever playing
+  "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=512&h=512&fit=crop",
+  "https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=512&h=512&fit=crop",
+  "https://images.unsplash.com/photo-1517849845537-4d257902454a?w=512&h=512&fit=crop",
+  "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=512&h=512&fit=crop",
+  "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=512&h=512&fit=crop",
+  "https://images.unsplash.com/photo-1477884213360-7e9d7dcc1e48?w=512&h=512&fit=crop",
 ]
 
 const PROMPT_SUGGESTIONS = [
