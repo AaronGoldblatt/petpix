@@ -6,6 +6,7 @@ import { Progress } from "@/components/ui/progress"
 
 interface ProcessingPageProps {
   petName: string
+  email: string
   imageCount: number
   onComplete: () => void
 }
@@ -18,7 +19,7 @@ const processingSteps = [
   { label: "Finalizing your pet's model", duration: 1000 },
 ]
 
-export function ProcessingPage({ petName, imageCount, onComplete }: ProcessingPageProps) {
+export function ProcessingPage({ petName, email, imageCount, onComplete }: ProcessingPageProps) {
   const [currentStep, setCurrentStep] = useState(0)
   const [progress, setProgress] = useState(0)
   const [isComplete, setIsComplete] = useState(false)
@@ -190,9 +191,13 @@ export function ProcessingPage({ petName, imageCount, onComplete }: ProcessingPa
             </div>
 
             {/* Email Notification Note */}
-            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground bg-muted/50 rounded-lg p-3">
-              <Mail className="w-4 h-4" />
-              <span>In production, we&apos;d email you when training is complete</span>
+            <div className="flex flex-col items-center gap-2 text-sm bg-muted/50 rounded-lg p-4">
+              <div className="flex items-center gap-2 text-foreground font-medium">
+                <Mail className="w-4 h-4 text-primary" />
+                <span>We&apos;ll email you at:</span>
+              </div>
+              <span className="text-primary font-medium">{email}</span>
+              <span className="text-muted-foreground text-xs">(Demo mode - no email will actually be sent)</span>
             </div>
           </div>
         </div>

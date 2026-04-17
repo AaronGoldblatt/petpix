@@ -22,9 +22,25 @@ interface UploadPageProps {
   onUploadComplete: (data: PetData) => void
 }
 
+// Dummy dog image URLs for preloading
+const DUMMY_DOG_IMAGES = [
+  "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1517849845537-4d257902454a?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=400&h=400&fit=crop",
+]
+
+// Type for either a File or a dummy image URL
+type ImageItem = File | { type: "dummy"; url: string; id: string }
+
 export function UploadPage({ onBack, onUploadComplete }: UploadPageProps) {
-  const [petName, setPetName] = useState("")
-  const [images, setImages] = useState<File[]>([])
+  const [petName, setPetName] = useState("Buddy")
+  const [email, setEmail] = useState("")
+  // Preload with 5 dummy dog images
+  const [images, setImages] = useState<ImageItem[]>(
+    DUMMY_DOG_IMAGES.map((url, i) => ({ type: "dummy" as const, url, id: `dummy-${i}` }))
+  )
   const [dragActive, setDragActive] = useState(false)
 
   const handleDrag = useCallback((e: React.DragEvent) => {
@@ -62,12 +78,18 @@ export function UploadPage({ onBack, onUploadComplete }: UploadPageProps) {
   }, [])
 
   const handleSubmit = () => {
-    if (petName.trim() && images.length >= 5) {
-      onUploadComplete({ name: petName.trim(), images })
+    if (petName.trim() && email.trim() && images.length >= 5) {
+      // Convert dummy images to placeholder Files for the flow
+      const imageFiles = images.map((img, i) => {
+        if (img instanceof File) return img
+        // Create a placeholder file for dummy images
+        return new File([""], `dummy-image-${i}.jpg`, { type: "image/jpeg" })
+      })
+      onUploadComplete({ name: petName.trim(), email: email.trim(), images: imageFiles })
     }
   }
 
-  const isValid = petName.trim().length > 0 && images.length >= 5
+  const isValid = petName.trim().length > 0 && email.trim().length > 0 && images.length >= 5
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -146,6 +168,26 @@ export function UploadPage({ onBack, onUploadComplete }: UploadPageProps) {
                     &quot;{petName.trim()} as an astronaut&quot;
                   </p>
                 )}
+              </CardContent>
+            </Card>
+
+            {/* Email Input */}
+            <Card>
+              <CardContent className="pt-6">
+                <Label htmlFor="email" className="text-base font-medium">
+                  Your email address
+                </Label>
+                <p className="text-sm text-muted-foreground mb-3">
+                  We&apos;ll notify you when your pet&apos;s AI model is ready to use
+                </p>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="text-lg h-12"
+                />
               </CardContent>
             </Card>
 
@@ -267,11 +309,13 @@ export function UploadPage({ onBack, onUploadComplete }: UploadPageProps) {
 
             {!isValid && (
               <p className="text-center text-sm text-muted-foreground">
-                {!petName.trim() && images.length < 5 
-                  ? "Enter your pet's name and upload at least 5 photos to continue"
-                  : !petName.trim() 
-                    ? "Enter your pet's name to continue"
-                    : `Upload ${5 - images.length} more photo${5 - images.length === 1 ? "" : "s"} to continue`
+                {!petName.trim() 
+                  ? "Enter your pet's name to continue"
+                  : !email.trim()
+                    ? "Enter your email address to continue"
+                    : images.length < 5
+                      ? `Upload ${5 - images.length} more photo${5 - images.length === 1 ? "" : "s"} to continue`
+                      : "Fill in all fields to continue"
                 }
               </p>
             )}
@@ -282,12 +326,16 @@ export function UploadPage({ onBack, onUploadComplete }: UploadPageProps) {
   )
 }
 
-function ImagePreview({ file }: { file: File }) {
+function ImagePreview({ file }: { file: ImageItem }) {
   const [src, setSrc] = useState<string>("")
 
-  // Create object URL on mount using useMemo pattern
-  if (!src && file) {
-    setSrc(URL.createObjectURL(file))
+  // Handle both File objects and dummy image URLs
+  if (!src) {
+    if (file instanceof File) {
+      setSrc(URL.createObjectURL(file))
+    } else {
+      setSrc(file.url)
+    }
   }
 
   return (

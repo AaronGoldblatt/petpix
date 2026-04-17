@@ -10,6 +10,7 @@ export type AppPage = "landing" | "upload" | "processing" | "generate"
 
 export interface PetData {
   name: string
+  email: string
   images: File[]
 }
 
@@ -53,6 +54,7 @@ export default function Home() {
       {currentPage === "processing" && petData && (
         <ProcessingPage 
           petName={petData.name}
+          email={petData.email}
           imageCount={petData.images.length}
           onComplete={handleProcessingComplete}
         />
