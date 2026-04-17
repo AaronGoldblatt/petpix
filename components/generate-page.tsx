@@ -52,6 +52,7 @@ interface GeneratedImageData {
   url: string
   prompt: string
   feedback: "liked" | "disliked" | null
+  feedbackText?: string
 }
 
 export function GeneratePage({ petName, onBack, onHome }: GeneratePageProps) {
@@ -92,11 +93,11 @@ export function GeneratePage({ petName, onBack, onHome }: GeneratePageProps) {
     handleGenerate()
   }, [generatedImages, handleGenerate, petName, prompt])
 
-  const handleFeedback = useCallback((imageId: string, feedback: "liked" | "disliked") => {
+  const handleFeedback = useCallback((imageId: string, feedback: "liked" | "disliked", feedbackText?: string) => {
     setGeneratedImages(prev => 
       prev.map(img => 
         img.id === imageId 
-          ? { ...img, feedback: img.feedback === feedback ? null : feedback }
+          ? { ...img, feedback: img.feedback === feedback ? null : feedback, feedbackText }
           : img
       )
     )
