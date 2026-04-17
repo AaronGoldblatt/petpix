@@ -194,7 +194,7 @@ export function ProcessingPage({ petName, email, imageCount, onComplete }: Proce
             <div className="flex flex-col items-center gap-2 text-sm bg-muted/50 rounded-lg p-4">
               <div className="flex items-center gap-2 text-foreground font-medium">
                 <Mail className="w-4 h-4 text-primary" />
-                <span>We&apos;ll email you at:</span>
+                <span>We&apos;ll email you when the model is ready:</span>
               </div>
               <span className="text-primary font-medium">{email}</span>
               <span className="text-muted-foreground text-xs">(Demo mode - no email will actually be sent)</span>

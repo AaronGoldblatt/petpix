@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Sparkles, Upload, Wand2, Heart, ArrowRight } from "lucide-react"
 
@@ -7,7 +8,17 @@ interface LandingPageProps {
   onGetStarted: () => void
 }
 
+// Example generated dog images to showcase
+const EXAMPLE_IMAGES = [
+  "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1517849845537-4d257902454a?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&h=400&fit=crop",
+]
+
 export function LandingPage({ onGetStarted }: LandingPageProps) {
+  const [showExamples, setShowExamples] = useState(false)
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
@@ -46,7 +57,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
                 <Button size="lg" onClick={onGetStarted} className="gap-2 text-lg px-8">
                   Start Creating <ArrowRight className="w-5 h-5" />
                 </Button>
-                <Button size="lg" variant="outline" className="gap-2 text-lg">
+                <Button size="lg" variant="outline" className="gap-2 text-lg" onClick={() => setShowExamples(true)}>
                   See Examples
                 </Button>
               </div>
@@ -54,22 +65,38 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
 
             {/* Hero Image Grid */}
             <div className="relative">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-4">
-                  <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 via-accent/20 to-primary/10 animate-pulse" />
-                  <div className="aspect-[4/3] rounded-2xl bg-gradient-to-tr from-accent/20 via-primary/20 to-accent/10 animate-pulse delay-100" />
+              {showExamples ? (
+                <div className="grid grid-cols-2 gap-4">
+                  {EXAMPLE_IMAGES.map((src, i) => (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      key={i}
+                      src={src}
+                      alt={`Example pet portrait ${i + 1}`}
+                      className="aspect-square rounded-2xl object-cover shadow-lg"
+                    />
+                  ))}
                 </div>
-                <div className="space-y-4 pt-8">
-                  <div className="aspect-[4/3] rounded-2xl bg-gradient-to-bl from-primary/20 via-accent/20 to-primary/10 animate-pulse delay-200" />
-                  <div className="aspect-square rounded-2xl bg-gradient-to-tl from-accent/20 via-primary/20 to-accent/10 animate-pulse delay-300" />
-                </div>
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="text-center bg-card/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-border">
-                  <Sparkles className="w-12 h-12 text-primary mx-auto mb-2" />
-                  <p className="text-sm text-muted-foreground">Your pet&apos;s magical portraits await</p>
-                </div>
-              </div>
+              ) : (
+                <>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-4">
+                      <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 via-accent/20 to-primary/10 animate-pulse" />
+                      <div className="aspect-[4/3] rounded-2xl bg-gradient-to-tr from-accent/20 via-primary/20 to-accent/10 animate-pulse delay-100" />
+                    </div>
+                    <div className="space-y-4 pt-8">
+                      <div className="aspect-[4/3] rounded-2xl bg-gradient-to-bl from-primary/20 via-accent/20 to-primary/10 animate-pulse delay-200" />
+                      <div className="aspect-square rounded-2xl bg-gradient-to-tl from-accent/20 via-primary/20 to-accent/10 animate-pulse delay-300" />
+                    </div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="text-center bg-card/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-border">
+                      <Sparkles className="w-12 h-12 text-primary mx-auto mb-2" />
+                      <p className="text-sm text-muted-foreground">Your pet&apos;s magical portraits await</p>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
