@@ -114,8 +114,9 @@ export function GeneratePage({ petName, onBack, onHome }: GeneratePageProps) {
   }, [])
 
   const handlePromptSuggestion = useCallback((suggestion: string) => {
-    setPrompt(suggestion)
-  }, [])
+    // Include the pet name in the prompt
+    setPrompt(`${petName} ${suggestion}`)
+  }, [petName])
 
   return (
     <div className="min-h-screen flex flex-col">
