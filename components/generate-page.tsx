@@ -23,16 +23,17 @@ import { GeneratedImage } from "@/components/generated-image"
 interface GeneratePageProps {
   petName: string
   onBack: () => void
+  onHome: () => void
 }
 
-// Sample dummy images for demonstration
+// Sample dummy images for demonstration - golden retriever "Buddy" in various styles
 const DUMMY_IMAGES = [
-  "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=512&h=512&fit=crop",
-  "https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=512&h=512&fit=crop",
-  "https://images.unsplash.com/photo-1517849845537-4d257902454a?w=512&h=512&fit=crop",
-  "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=512&h=512&fit=crop",
-  "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=512&h=512&fit=crop",
-  "https://images.unsplash.com/photo-1477884213360-7e9d7dcc1e48?w=512&h=512&fit=crop",
+  "https://images.unsplash.com/photo-1633722715463-d30f4f325e24?w=512&h=512&fit=crop", // Golden retriever portrait
+  "https://images.unsplash.com/photo-1612774412771-005ed8e861d2?w=512&h=512&fit=crop", // Golden retriever side
+  "https://images.unsplash.com/photo-1625316708582-7c38734d5cc8?w=512&h=512&fit=crop", // Golden retriever happy
+  "https://images.unsplash.com/photo-1619441207978-3d326c46e2c9?w=512&h=512&fit=crop", // Golden retriever outdoor  
+  "https://images.unsplash.com/photo-1601979031925-424e53b6caaa?w=512&h=512&fit=crop", // Golden retriever close-up
+  "https://images.unsplash.com/photo-1558788353-f76d92427f16?w=512&h=512&fit=crop", // Golden retriever playing
 ]
 
 const PROMPT_SUGGESTIONS = [
@@ -53,7 +54,7 @@ interface GeneratedImageData {
   feedback: "liked" | "disliked" | null
 }
 
-export function GeneratePage({ petName, onBack }: GeneratePageProps) {
+export function GeneratePage({ petName, onBack, onHome }: GeneratePageProps) {
   const [prompt, setPrompt] = useState("")
   const [outputCount, setOutputCount] = useState(4)
   const [isGenerating, setIsGenerating] = useState(false)
@@ -102,7 +103,7 @@ export function GeneratePage({ petName, onBack }: GeneratePageProps) {
   }, [])
 
   const handleDownload = useCallback((imageId: string) => {
-    // Mark as implicitly liked when downloaded
+    // Mark as implicitly liked when downloaded (implicit positive feedback)
     setGeneratedImages(prev => 
       prev.map(img => 
         img.id === imageId && img.feedback === null
@@ -110,8 +111,6 @@ export function GeneratePage({ petName, onBack }: GeneratePageProps) {
           : img
       )
     )
-    // In a real app, this would trigger the actual download
-    console.log("[v0] Download triggered for image:", imageId)
   }, [])
 
   const handlePromptSuggestion = useCallback((suggestion: string) => {
@@ -126,12 +125,12 @@ export function GeneratePage({ petName, onBack }: GeneratePageProps) {
           <Button variant="ghost" onClick={onBack} className="gap-2">
             <ArrowLeft className="w-4 h-4" /> Back
           </Button>
-          <div className="flex items-center gap-2">
+          <button onClick={onHome} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
               <Sparkles className="w-4 h-4 text-primary-foreground" />
             </div>
             <span className="font-semibold text-foreground">PetPix</span>
-          </div>
+          </button>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Check className="w-4 h-4 text-accent" />
             <span className="hidden sm:inline">Model ready for</span>
@@ -234,6 +233,30 @@ export function GeneratePage({ petName, onBack }: GeneratePageProps) {
                       Regenerate
                     </Button>
                   )}
+                </CardContent>
+              </Card>
+
+              {/* Download Model Card */}
+              <Card>
+                <CardContent className="pt-6">
+                  <h3 className="font-medium text-foreground mb-2">Export Your Model</h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Download your fine-tuned {petName} model to use in your own applications
+                  </p>
+                  <Button 
+                    variant="outline"
+                    className="w-full gap-2"
+                    onClick={() => {
+                      // Simulated download - would trigger actual model download in production
+                      alert(`Downloading ${petName}'s fine-tuned model...\n\n(This is a demo - no actual model exists)`)
+                    }}
+                  >
+                    <Download className="w-4 h-4" />
+                    Download Model (.safetensors)
+                  </Button>
+                  <p className="text-xs text-muted-foreground mt-2 text-center">
+                    Compatible with Stable Diffusion, ComfyUI, and more
+                  </p>
                 </CardContent>
               </Card>
 

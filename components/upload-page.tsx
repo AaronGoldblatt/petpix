@@ -22,13 +22,13 @@ interface UploadPageProps {
   onUploadComplete: (data: PetData) => void
 }
 
-// Dummy dog image URLs for preloading
+// Dummy dog image URLs for preloading - all featuring the same golden retriever "Buddy"
 const DUMMY_DOG_IMAGES = [
-  "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=400&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1517849845537-4d257902454a?w=400&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1633722715463-d30f4f325e24?w=400&h=400&fit=crop", // Golden retriever portrait
+  "https://images.unsplash.com/photo-1612774412771-005ed8e861d2?w=400&h=400&fit=crop", // Golden retriever side view
+  "https://images.unsplash.com/photo-1625316708582-7c38734d5cc8?w=400&h=400&fit=crop", // Golden retriever happy
+  "https://images.unsplash.com/photo-1619441207978-3d326c46e2c9?w=400&h=400&fit=crop", // Golden retriever outdoor
+  "https://images.unsplash.com/photo-1601979031925-424e53b6caaa?w=400&h=400&fit=crop", // Golden retriever close-up
 ]
 
 // Type for either a File or a dummy image URL
@@ -36,7 +36,7 @@ type ImageItem = File | { type: "dummy"; url: string; id: string }
 
 export function UploadPage({ onBack, onUploadComplete }: UploadPageProps) {
   const [petName, setPetName] = useState("Buddy")
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState("demo@petpix.ai")
   // Preload with 5 dummy dog images
   const [images, setImages] = useState<ImageItem[]>(
     DUMMY_DOG_IMAGES.map((url, i) => ({ type: "dummy" as const, url, id: `dummy-${i}` }))
@@ -99,12 +99,12 @@ export function UploadPage({ onBack, onUploadComplete }: UploadPageProps) {
           <Button variant="ghost" onClick={onBack} className="gap-2">
             <ArrowLeft className="w-4 h-4" /> Back
           </Button>
-          <div className="flex items-center gap-2">
+          <button onClick={onBack} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
               <Sparkles className="w-4 h-4 text-primary-foreground" />
             </div>
             <span className="font-semibold text-foreground">PetPix</span>
-          </div>
+          </button>
           <div className="w-20" />
         </div>
       </header>
